@@ -37,17 +37,14 @@ getStorage();
 /** CART ITEM EVENT */
 const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox & up & down, removeBtn
   document.querySelector(".cart-section").addEventListener("click", function (e) {
-    if (e.target.closest(".checkbox-container").querySelector(".checkbox").classList.contains("checkbox"))
-     {
-      e.target.closest(".cart-section").querySelectorAll(".checkbox").forEach((el) => {
-        el.checked = !e.target.checked
-      })
+    if (e.target.closest(".checkbox-container").querySelector(".checkbox").classList.contains("checkbox")) { 
+       e.target.closest(".cart-section").querySelectorAll(".checkbox").forEach((el) => {
+        el.checked = !e.target.checked })
       e.target.checked = !e.target.checked;
-
     }
   })
-
- 
+    
+  
 } 
 
 /** CART-CONTAINER */
