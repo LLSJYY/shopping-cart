@@ -37,14 +37,22 @@ getStorage();
 /** CART ITEM EVENT */
 const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox & up & down, removeBtn
   document.querySelector(".cart-section").addEventListener("click", function (e) {
-    if (e.target.closest(".checkbox-container").querySelector(".checkbox").classList.contains("checkbox")) { 
+    if (e.target.parentElement.classList.contains("checkbox-container")) { 
        e.target.closest(".cart-section").querySelectorAll(".checkbox").forEach((el) => {
         el.checked = !e.target.checked })
       e.target.checked = !e.target.checked;
     }
+    let total =0;    
+    document.querySelectorAll(".cart-price").forEach(e=>{
+    if(e.closest(".cart-container").querySelector(".checkbox").checked){
+      const totalPrice = parseInt(e.innerText.replace(/[^0-9]/g,""))
+    total += totalPrice; 
+}
+document.querySelectorAll(".highlight-text")[1].innerText =`${total}`
   })
     
-  
+    
+  })
 } 
 
 /** CART-CONTAINER */
