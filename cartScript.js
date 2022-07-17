@@ -50,23 +50,30 @@ const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox 
 
     if (e.target.classList.contains("delete-button")) {
       document.querySelectorAll(".cart-container").forEach((e) => {
-         console.log(e.querySelector(".checkbox").checked ? e.remove() : console.log("2")) 
-        })
-
-
+        console.log(e.querySelector(".checkbox").checked ? e.remove() : console.log("2"))
+      })
       document.querySelectorAll("hr.divide-line-thin.mt-10").forEach((e) => {
         e.remove()
       })
     }
-    let total = 0;
 
-    document.querySelectorAll(".cart-price").forEach(e => {
-      if (e.closest(".cart-container").querySelector(".checkbox").checked) {
-        const totalPrice = parseInt(e.innerText.replace(/[^0-9]/g, ""))
-        total += totalPrice;
-      }
+    if (e.target.classList.contains("number-input-button")) {
+
+      const container = e.target.parentElement.parentElement
+      let cartQty = parseInt(container.querySelector(".number-input").value);
+      const checkBtn = e.target.closest("div").querySelectorAll(".number-input-button")[0]
+      e.target == checkBtn ? container.querySelector(".number-input").value = cartQty + 1 : container.querySelector(".number-input").value = cartQty - 1;
+
+      e.target.closest(".flex-col-center.justify-end.gap-15").querySelector(".cart-price").innerHTML = parseInt(e.target.closest(".flex-col-center.justify-end.gap-15").querySelector(".cart-price").innerHTML.replace(/[^0-9]/g, "")) * cartQty
+
+    }
+
+    
+      const total = Array.from(document.querySelectorAll(".cart-price")).reduce((acc, cur) => {
+        return acc + parseInt(cur.innerHTML.replace(/[^0-9]/g, ""));
+      }, 0)
       document.querySelectorAll(".highlight-text")[1].innerText = `${total}`
-    })
+    //  
 
 
   })
@@ -84,3 +91,10 @@ const proceedToCheckout = function () {
 
 
 }
+// img,order-name, span(수량)
+// document.querySelector(".primary-button flex-center").addEventListener('click',function(e){
+//   const checkoutStorage = {};
+//   // document.querySelector(".cart-container")
+
+
+// })
