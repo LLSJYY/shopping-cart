@@ -37,6 +37,7 @@ getStorage();
 /** CART ITEM EVENT 1.CHECKBOX ,2.REMOVE  3.INPUTBOX UP&DOWN*/
 const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox & up & down, removeBtn
   document.querySelector(".cart-section").addEventListener("click", function (e) {
+    e.preventDefault();
     if (e.target.parentElement.classList.contains("checkbox-container")) {
       e.target.closest(".cart-section").querySelectorAll(".checkbox").forEach((el) => {
         el.checked = !e.target.checked
@@ -72,7 +73,7 @@ const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox 
       const total = Array.from(document.querySelectorAll(".cart-price")).reduce((acc, cur) => {
         return acc + parseInt(cur.innerHTML.replace(/[^0-9]/g, ""));
       }, 0)
-      document.querySelectorAll(".highlight-text")[1].innerText = `${total}`
+      document.querySelectorAll(".highlight-text")[1].innerHTML = `${total}`
     //  
 
 
