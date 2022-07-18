@@ -6,6 +6,10 @@ const numberFormat = function (str) {
  return str.toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
 };
+
+(()=>{
+  
+})()
 /** LIST CART IMG CLICK EVENT */
 const newCartItem = function (e) {
   const section = document.querySelector(".cart-left-section");
@@ -44,12 +48,13 @@ getStorage();
 const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox & up & down, removeBtn
   document.querySelector(".cart-section").addEventListener("click", function (e) {
     e.preventDefault();
-    if (e.target.parentElement.classList.contains("checkbox-container")) {
-      e.target.closest(".cart-section").querySelectorAll(".checkbox").forEach((el) => {
-        el.checked = !e.target.checked
-      })
-      e.target.checked = !e.target.checked;
-    }
+
+    if (e.target.closest(".checkbox-container").querySelector(".checkbox").tagName==="INPUT") {
+     return e.target.closest(".cart-section").querySelectorAll(".checkbox").forEach((el) => {
+      el.checked = !e.target.checked
+     })
+     e.target.checked = !e.target.checked
+   } 
     if (e.target.getAttribute("alt") === "삭제") {
       e.target.closest(".cart-container").nextElementSibling.remove();
       e.target.closest(".cart-container").remove()
@@ -83,8 +88,11 @@ const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox 
     document.querySelectorAll(".highlight-text")[1].innerHTML = `${numberFormat(parseInt(total))}원`
     //  
 
+    
   })
-}
+  }
+
+
 
 /** CART-CONTAINER */
 
