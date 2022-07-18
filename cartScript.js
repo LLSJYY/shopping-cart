@@ -1,5 +1,11 @@
 
-
+const justNumbers = function (str) {
+  return str.replace(/[^0-9]/g, "")
+};
+const numberFormat = function (str) {
+ return str.toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+};
 /** LIST CART IMG CLICK EVENT */
 const newCartItem = function (e) {
   const section = document.querySelector(".cart-left-section");
@@ -7,7 +13,7 @@ const newCartItem = function (e) {
   <div class="flex gap-15 mt-10">
     <input class="checkbox" name="checkbox" type="checkbox" checked="true">
     <img class="w-144 h-144" src="./assets/images/product.png" alt="${e.getImgName}">
-    <span class="cart-name">${e.getImgName}</span>
+    <span class="cart-name">${(e.getImgName)}</span>
   </div>
   <div class="flex-col-center justify-end gap-15">
     <img class="cart-trash-svg" src="./assets/svgs/trash.svg" alt="삭제">
@@ -18,7 +24,7 @@ const newCartItem = function (e) {
         <button class="number-input-button">▼</button>
       </div>
     </div>
-    <span class="cart-price">${e.getImgPrice}</span>
+    <span class="cart-price" data-price="${justNumbers(e.getImgPrice)}" >${e.getImgPrice}</span>
   </div>
   </div>
   <hr class="divide-line-thin mt-10" />`
@@ -60,22 +66,22 @@ const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox 
 
     if (e.target.classList.contains("number-input-button")) {
 
-      const container = e.target.parentElement.parentElement
-      let cartQty = parseInt(container.querySelector(".number-input").value);
-      const checkBtn = e.target.closest("div").querySelectorAll(".number-input-button")[0]
-      e.target == checkBtn ? container.querySelector(".number-input").value = cartQty + 1 : container.querySelector(".number-input").value = cartQty - 1;
+      const container = e.target.closest(".cart-container")
+      const qtyBtn = container.querySelectorAll(".number-input-button")[0];
+      const numberInput = container.querySelector(".number-input");
+      const price = container.querySelector(".cart-price");
+      let cartQty = parseInt(numberInput.value);
+      const cartQty2 = e.target == qtyBtn ? cartQty + 1 : cartQty - 1;
+      numberInput.value = cartQty2
+      price.innerHTML = `${numberFormat(parseInt(price.getAttribute("data-price"))*cartQty2)}원`
+    } 
 
-      e.target.closest(".flex-col-center.justify-end.gap-15").querySelector(".cart-price").innerHTML = parseInt(e.target.closest(".flex-col-center.justify-end.gap-15").querySelector(".cart-price").innerHTML.replace(/[^0-9]/g, "")) * cartQty
 
-    }
-
-    
-      const total = Array.from(document.querySelectorAll(".cart-price")).reduce((acc, cur) => {
-        return acc + parseInt(cur.innerHTML.replace(/[^0-9]/g, ""));
-      }, 0)
-      document.querySelectorAll(".highlight-text")[1].innerHTML = `${total}`
+    const total = Array.from(document.querySelectorAll(".cart-price")).reduce((acc, cur) => {
+      return acc + parseInt(cur.innerHTML.replace(/[^0-9]/g, ""));
+    }, 0)
+    document.querySelectorAll(".highlight-text")[1].innerHTML = `${numberFormat(parseInt(total))}원`
     //  
-
 
   })
 }
