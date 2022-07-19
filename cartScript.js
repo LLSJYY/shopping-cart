@@ -42,19 +42,18 @@ getStorage();
 /** CART ITEM EVENT 1.CHECKBOX ,2.REMOVE  3.INPUTBOX UP&DOWN*/
 const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox & up & down, removeBtn
   document.querySelector(".cart-section").addEventListener("click", function (e) {
-    e.preventDefault();
+    e.preventDefault()
+    if(e.target.closest(".checkbox-container").querySelector(".checkbox").getAttribute("name")==="checkbox"){
+    }
+    
+    
 
-    if (e.target.closest(".checkbox-container").querySelector(".checkbox").tagName==="INPUT") {
-     return e.target.closest(".cart-section").querySelectorAll(".checkbox").forEach((el) => {
-      el.checked = !e.target.checked
-     })
-     e.target.checked = !e.target.checked
-   } 
+    /** todo localstorage -> storedProduct에서도 삭제 */
     if (e.target.getAttribute("alt") === "삭제") {
       e.target.closest(".cart-container").nextElementSibling.remove();
       e.target.closest(".cart-container").remove()
     }
-
+   
     if (e.target.classList.contains("delete-button")) {
       document.querySelectorAll(".cart-container").forEach((e) => {
         console.log(e.querySelector(".checkbox").checked ? e.remove() : console.log("2"))
