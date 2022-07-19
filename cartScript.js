@@ -43,10 +43,10 @@ getStorage();
 const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox & up & down, removeBtn
   document.querySelector(".cart-section").addEventListener("click", function (e) {
     e.preventDefault()
-    if(e.target.closest(".checkbox-container").querySelector(".checkbox").getAttribute("name")==="checkbox"){
+    if(e.target.parentElement.classList.contains("checkbox-container")  && e.target.tagName ==="INPUT"){
+      console.log(e.target)
     }
-    
-    
+  
 
     /** todo localstorage -> storedProduct에서도 삭제 */
     if (e.target.getAttribute("alt") === "삭제") {
