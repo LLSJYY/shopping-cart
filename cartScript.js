@@ -3,9 +3,11 @@ const justNumbers = function (str) {
   return str.replace(/[^0-9]/g, "")
 };
 const numberFormat = function (str) {
- return str.toString()
+  return str.toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
 };
+
+
 /** LIST CART IMG CLICK EVENT */
 const newCartItem = function (e) {
   const section = document.querySelector(".cart-left-section");
@@ -42,18 +44,20 @@ getStorage();
 /** CART ITEM EVENT 1.CHECKBOX ,2.REMOVE  3.INPUTBOX UP&DOWN*/
 const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox & up & down, removeBtn
   document.querySelector(".cart-section").addEventListener("click", function (e) {
-    e.preventDefault()
-    if(e.target.parentElement.classList.contains("checkbox-container")  && e.target.tagName ==="INPUT"){
-      console.log(e.target)
+    // e.preventDefault()
+    if (e.target.parentElement.classList.contains("checkbox-container") && e.target.tagName === "INPUT") {
+      const checkContainer = e.target.closest(".cart-left-section").querySelectorAll(".cart-container");
+      checkContainer.forEach((container) => { return container.querySelector(".checkbox").checked = e.target.checked })
+      console.log(checkContainer)
     }
-  
+
 
     /** todo localstorage -> storedProduct에서도 삭제 */
     if (e.target.getAttribute("alt") === "삭제") {
       e.target.closest(".cart-container").nextElementSibling.remove();
       e.target.closest(".cart-container").remove()
     }
-   
+
     if (e.target.classList.contains("delete-button")) {
       document.querySelectorAll(".cart-container").forEach((e) => {
         console.log(e.querySelector(".checkbox").checked ? e.remove() : console.log("2"))
@@ -72,19 +76,22 @@ const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox 
       let cartQty = parseInt(numberInput.value);
       const cartQty2 = e.target == qtyBtn ? cartQty + 1 : cartQty - 1;
       numberInput.value = cartQty2
-      price.innerHTML = `${numberFormat(parseInt(price.getAttribute("data-price"))*cartQty2)}원`
-    } 
-
-
-    const total = Array.from(document.querySelectorAll(".cart-price")).reduce((acc, cur) => {
+      price.innerHTML = `${numberFormat(parseInt(price.getAttribute("data-price")) * cartQty2)}원`
+    }
+    const isChecked = Array.from(document.querySelectorAll(".cart-price")); 
+    const filter = isChecked.filter((item) => {
+      return item.closest(".cart-container").querySelector(".checkbox").checked;
+    })
+    console.log(filter)
+    const total = Array.from(filter).reduce((acc, cur) => {
       return acc + parseInt(cur.innerHTML.replace(/[^0-9]/g, ""));
     }, 0)
     document.querySelectorAll(".highlight-text")[1].innerHTML = `${numberFormat(parseInt(total))}원`
     //  
 
-    
+
   })
-  }
+}
 
 
 
