@@ -1,11 +1,11 @@
-const storedImg = []; // 이름이 맘에 안듭니다.
+const storedProduct = []; // 이름이 맘에 안듭니다.
 const productInfoCart = document.querySelectorAll(".flex.justify-between.w-280.p-5");
 let count = 0;
 
 const storeLocalStorage = function () {
-  localStorage.setItem('newCartItem', JSON.stringify(storedImg));
+  localStorage.setItem('newCartItem', JSON.stringify(storedProduct));
 }
-
+/** 지금 내가 하고싶은거 큰이미지클릭하면 디테일로 가고, 카트를 누르면 장바구니로 들어가는것, 그럼 공통된거는 ? */
 productInfoCart.forEach(function (el) {
   const cartSection = document.querySelector(".cart-left-section");
   el.addEventListener("click", function (e) {
@@ -14,14 +14,14 @@ productInfoCart.forEach(function (el) {
       const getImgName = getImg.getAttribute("alt");
       const getImgPrice = e.target.closest(".flex").querySelector(".product-info__price").innerText;
       count++;
-      storedImg.push({
+      storedProduct.push({
         getImg,
         getImgName,
         getImgPrice,
         count,
       })
 
-      console.log(storedImg)
+      console.log(storedProduct)
       storeLocalStorage(); //저장을 3번하고싶은데 안되네요 ..
       console.log(storeLocalStorage())
       debugger;
@@ -31,8 +31,7 @@ productInfoCart.forEach(function (el) {
     if (e.target.classList.contains('product-info__name') || e.target.classList.contains('product-info__price')) {
       const getStoredDetail = [];
       console.log("상품상세로 이동");
-      const itemContainer = e.target.closest("div").parentElement;
-      const getImg = itemContainer.querySelector("img").getAttribute("src");
+      const getImg = e.target.closest(".flex").querySelector("img").getAttribute("src");
       const getImgName = e.target.closest(".flex").querySelector("img").getAttribute("alt");
       const getImgPrice = e.target.closest(".flex").querySelector(".product-info__price").innerText;
       getStoredDetail.push({
@@ -40,7 +39,7 @@ productInfoCart.forEach(function (el) {
         getImgName,
         getImgPrice,
       })
-
+      
       console.log(getImg,getImgName,getImgPrice);
       const storeDetailLocalstorage = function(){
         localStorage.setItem('detailInfo',JSON.stringify(getStoredDetail))

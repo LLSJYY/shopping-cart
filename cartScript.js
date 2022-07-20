@@ -6,7 +6,18 @@ const numberFormat = function (str) {
   return str.toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
 };
-
+const getTotalPrice = function(){
+  const isChecked = Array.from(document.querySelectorAll(".cart-price"));
+  const filter = isChecked.filter((item) => {
+    return item.closest(".cart-container").querySelector(".checkbox").checked;
+  })
+  console.log(filter)
+  const total = Array.from(filter).reduce((acc, cur) => {
+    return acc + parseInt(cur.innerHTML.replace(/[^0-9]/g, ""));
+  }, 0)
+  document.querySelectorAll(".highlight-text")[1].innerHTML = `${numberFormat(parseInt(total))}원`
+  //  
+}
 
 /** LIST CART IMG CLICK EVENT */
 const newCartItem = function (e) {
@@ -20,7 +31,7 @@ const newCartItem = function (e) {
   <div class="flex-col-center justify-end gap-15">
     <img class="cart-trash-svg" src="./assets/svgs/trash.svg" alt="삭제">
     <div class="number-input-container">
-      <input type="number" class="number-input" value="1">
+      <input type="number" min="0" class="number-input" value="1" >
       <div>
         <button class="number-input-button">▲</button>
         <button class="number-input-button">▼</button>
@@ -40,7 +51,7 @@ const getStorage = function () {
 } //__ if localstorage dont have any item? 
 
 getStorage();
-
+getTotalPrice()
 /** CART ITEM EVENT 1.CHECKBOX ,2.REMOVE  3.INPUTBOX UP&DOWN*/
 const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox & up & down, removeBtn
   document.querySelector(".cart-section").addEventListener("click", function (e) {
@@ -75,21 +86,12 @@ const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox 
       const price = container.querySelector(".cart-price");
       let cartQty = parseInt(numberInput.value);
       const cartQty2 = e.target == qtyBtn ? cartQty + 1 : cartQty - 1;
-      numberInput.value = cartQty2
-      price.innerHTML = `${numberFormat(parseInt(price.getAttribute("data-price")) * cartQty2)}원`
+      numberInput.value = cartQty2 > 0 ? cartQty2 : 0  //
+      price.innerHTML = `${cartQty2 >= 0 ? numberFormat(parseInt(price.getAttribute("data-price")) * cartQty2) : "0"}원`
+
+      
     }
-    const isChecked = Array.from(document.querySelectorAll(".cart-price")); 
-    const filter = isChecked.filter((item) => {
-      return item.closest(".cart-container").querySelector(".checkbox").checked;
-    })
-    console.log(filter)
-    const total = Array.from(filter).reduce((acc, cur) => {
-      return acc + parseInt(cur.innerHTML.replace(/[^0-9]/g, ""));
-    }, 0)
-    document.querySelectorAll(".highlight-text")[1].innerHTML = `${numberFormat(parseInt(total))}원`
-    //  
-
-
+    getTotalPrice();
   })
 }
 

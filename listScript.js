@@ -1,7 +1,7 @@
-const storedImg = []; // 이름이 맘에 안듭니다.
+const storedProduct = []; // 이름이 맘에 안듭니다.
 const productContainer = document.querySelector(".product-container");
 const storeLocalStorage = function () {
-  localStorage.setItem('newCartItem', JSON.stringify(storedImg));
+  localStorage.setItem('newCartItem', JSON.stringify(storedProduct));
 }
 
 let count = 0;
@@ -17,15 +17,15 @@ productContainer.addEventListener('click',(e) => {
     console.log(productImg,productName,productPrice)
 
     count++;
-    storedImg.push({
+    storedProduct.push({
       productImg,
       productName,
       productPrice,
       count,
     })
-    
-    location.href = `./cart.html?img=${productImg}&name=${productName}&Price=${productPrice}`//todo : yes or no로 넘어갈지 안넘어갈지 하기
-    console.log(storedImg) // todo : yes or no로 넘어갈지 안넘어갈지 하기
+    storeLocalStorage();
+    // location.href = `./cart.html?img=${productImg}&name=${productName}&Price=${productPrice}`//todo : yes or no로 넘어갈지 안넘어갈지 하기
+    console.log(storedProduct) // todo : yes or no로 넘어갈지 안넘어갈지 하기
   } 
   if(e.target.tagName === "IMG" &&e.target.getAttribute("alt")!= "장바구니" ){
     const productInfo = e.target.closest("div")
