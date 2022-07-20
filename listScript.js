@@ -1,10 +1,10 @@
 const storedProduct = []; // 이름이 맘에 안듭니다.
 const productContainer = document.querySelector(".product-container");
 (function () {
-  JSON.parse(localStorage.getItem('newCartItem')).forEach(e => {
-    storedProduct.push(e)
-  })
-})();
+   if(JSON.parse(localStorage.getItem('newCartItem'))!=null){
+    JSON.parse(localStorage.getItem('newCartItem')).forEach(e => {
+    storedProduct.push(e)})
+  }})();
 
 const storeLocalStorage = function () {
   localStorage.setItem('newCartItem', JSON.stringify(storedProduct));

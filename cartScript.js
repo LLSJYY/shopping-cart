@@ -21,14 +21,16 @@ const storedProduct = []
 
 const uncheckdItem = function(){
   document.querySelectorAll(".cart-container").forEach((product)=>{
-   if(product.querySelector(".checkbox")){
+   if(!product.querySelector(".checkbox").checked){
     const productImg = product.querySelector("img").getAttribute("src");
    const productName = product.querySelector(".cart-name").innerHTML;
    const productPrice = product.querySelector(".cart-price").innerHTML;
-    storedProduct.push({
+   const productQty = product.querySelector(".number-input").value; 
+   storedProduct.push({
       productImg,
       productName,
       productPrice,
+      productQty,
     })}
   })
   localStorage.setItem('newCartItem', JSON.stringify(storedProduct));
@@ -113,18 +115,16 @@ const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox 
 
       
     }
+
+    if(e.target.classList[0] == "primary-button"){
+      localStorage.removeItem("newCartItem");
+      uncheckdItem(); // .... 이거 반대로 적용시키고싶은데 어떤 방법이 있을가요 선생님..?
+      location.href = "./order.html";
+    }
     getTotalPrice();
   })
 }
-
 shoppingCart()
 
 /** CART-CONTAINER */
 /**  check out */
-const proceedToCheckout = function () {
-  const checkoutSection = document.querySelector(".cart-right-section__bottom");
-  checkoutSection.querySelector(".primary-button.flex-center").addEventListener('click',(e)=>{
-    
-  })
-
-}
