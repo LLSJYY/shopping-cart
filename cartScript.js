@@ -11,14 +11,32 @@ const getTotalPrice = function(){
   const filter = isChecked.filter((item) => {
     return item.closest(".cart-container").querySelector(".checkbox").checked;
   })
-  console.log(filter)
   const total = Array.from(filter).reduce((acc, cur) => {
     return acc + parseInt(cur.innerHTML.replace(/[^0-9]/g, ""));
   }, 0)
   document.querySelectorAll(".highlight-text")[1].innerHTML = `${numberFormat(parseInt(total))}원`
   //  
 }
+const storedProduct = []
 
+const uncheckdItem = function(){
+  document.querySelectorAll(".cart-container").forEach((product)=>{
+   if(product.querySelector(".checkbox")){
+    const productImg = product.querySelector("img").getAttribute("src");
+   const productName = product.querySelector(".cart-name").innerHTML;
+   const productPrice = product.querySelector(".cart-price").innerHTML;
+    storedProduct.push({
+      productImg,
+      productName,
+      productPrice,
+    })}
+  })
+  localStorage.setItem('newCartItem', JSON.stringify(storedProduct));
+}
+
+const storeLocalStorage = function () {
+  localStorage.setItem('newCartItem', JSON.stringify(storedProduct));
+}
 /** LIST CART IMG CLICK EVENT */
 const newCartItem = function (e) {
   const section = document.querySelector(".cart-left-section");
@@ -67,17 +85,21 @@ const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox 
     if (e.target.getAttribute("alt") === "삭제") {
       e.target.closest(".cart-container").nextElementSibling.remove();
       e.target.closest(".cart-container").remove()
+
+
     }
 
     if (e.target.classList.contains("delete-button")) {
-      document.querySelectorAll(".cart-container").forEach((e) => {
-        console.log(e.querySelector(".checkbox").checked ? e.remove() : console.log("2"))
-      })
-      document.querySelectorAll("hr.divide-line-thin.mt-10").forEach((e) => {
-        e.remove()
-      })
-    }
 
+      document.querySelectorAll(".cart-container").forEach((container) => {
+        console.log(container)
+
+        container.querySelector(".checkbox").checked ? (container.remove()) : "";
+      })
+      localStorage.removeItem("newCartItem");
+      uncheckdItem();
+    }
+    
     if (e.target.classList.contains("number-input-button")) {
 
       const container = e.target.closest(".cart-container")
@@ -95,24 +117,14 @@ const shoppingCart = function () { //event delegate ->5,checkbox,inputNumberBox 
   })
 }
 
-
+shoppingCart()
 
 /** CART-CONTAINER */
-
-shoppingCart();
 /**  check out */
 const proceedToCheckout = function () {
   const checkoutSection = document.querySelector(".cart-right-section__bottom");
-  // checkoutSection.querySelectorAll(".highlight-text")[1].innerHTML = `${}`
-  // checkoutSection.querySelector(".primary-button flex-center").innerHTML = `주문하기 ${}개`
-  // <button class="primary-button flex-center">  check 된 개수만큼,
-
+  checkoutSection.querySelector(".primary-button.flex-center").addEventListener('click',(e)=>{
+    
+  })
 
 }
-// img,order-name, span(수량)
-// document.querySelector(".primary-button flex-center").addEventListener('click',function(e){
-//   const checkoutStorage = {};
-//   // document.querySelector(".cart-container")
-
-
-// })
