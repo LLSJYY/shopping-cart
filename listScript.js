@@ -1,8 +1,9 @@
-const productList = JSON.parse(localStorage.getItem("cart-item-list")) || [];
+const storeKey = "cart-item-list";
+const productList = JSON.parse(localStorage.getItem(storeKey)) || [];
 const productContainer = document.querySelector(".product-container");
 
 const storeLocalStorage = function () {
-  localStorage.setItem("cart-item-list", JSON.stringify(productList));
+  localStorage.setItem(storeKey, JSON.stringify(productList));
 };
 
 productContainer.addEventListener("click", (e) => {
@@ -17,16 +18,18 @@ productContainer.addEventListener("click", (e) => {
       return _productId === productId;
     })[0];
 
-    const count = findProductItem ? findProductItem.count : 0;
-
-    productList.push({
-      productId,
-      productImg,
-      productName,
-      productPrice,
-      count: count + 1,
-    });
-
+    if(findProductItem) {
+      findProductItem.count++;
+    } else {
+      productList.push({
+        productId,
+        productImg,
+        productName,
+        productPrice,
+        count: 1,
+      });
+    }
+    
     storeLocalStorage();
   } else {
     location.href = `./detail.html?img=${productImg}&name=${productName}&price=${productPrice}`
